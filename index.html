@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vimmai Creative Oy</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg:        #f5f5f9;
+      --surface:   #ffffff;
+      --border:    #e0e0ea;
+      --accent:    #8b5cf6;
+      --accent2:   #3b82f6;
+      --text:      #14142a;
+      --muted:     #6c6c88;
+      --radius:    12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 5vw;
+      background: rgba(245,245,249,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .95rem;
+      transition: color .2s;
+    }
+
+    nav a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: .45rem 1.1rem;
+      border-radius: 99px;
+      font-weight: 600;
+      -webkit-text-fill-color: #fff;
+      transition: opacity .2s !important;
+    }
+
+    .nav-cta:hover { opacity: .85; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 5vw 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% -10%, rgba(139,92,246,.13), transparent),
+        radial-gradient(ellipse 40% 30% at 80% 80%, rgba(59,130,246,.08), transparent);
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: .3rem .9rem;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      font-size: .8rem;
+      color: var(--muted);
+      margin-bottom: 1.8rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      background: var(--surface);
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 7vw, 5rem);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      line-height: 1.1;
+      max-width: 14ch;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 48ch;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: .75rem 2rem;
+      border-radius: 99px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: transform .15s, opacity .15s, box-shadow .15s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn:hover { transform: translateY(-2px); opacity: .9; }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(139,92,246,.3);
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 5vw; }
+
+    .section-label {
+      text-align: center;
+      font-size: .8rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .8rem;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin-bottom: 1rem;
+    }
+
+    .section-desc {
+      text-align: center;
+      color: var(--muted);
+      max-width: 50ch;
+      margin: 0 auto 3.5rem;
+    }
+
+    /* ── SERVICES ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+      box-shadow: 0 1px 6px rgba(0,0,0,.05);
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(139,92,246,.1);
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .card h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: .5rem;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    /* ── VIMMAI PALVELUT ── */
+    .vimmai-palvelut {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .palvelu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .palvelu-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+    }
+
+    .palvelu-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+
+    .palvelu-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(139,92,246,.1);
+    }
+
+    .palvelu-num {
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .palvelu-card h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin-bottom: .6rem;
+    }
+
+    .palvelu-card > p {
+      color: var(--muted);
+      font-size: .95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .palvelu-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+
+    .palvelu-features li {
+      font-size: .9rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+    }
+
+    .palvelu-features li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      flex-shrink: 0;
+    }
+
+    /* ── STATS ── */
+    .stats {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+      margin-bottom: .4rem;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    /* ── REFERENSSIT ── */
+    .referenssit {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ref-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .ref-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+    }
+
+    .ref-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(139,92,246,.1);
+    }
+
+    .ref-quote {
+      font-size: 3.5rem;
+      line-height: .75;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: .75rem;
+      font-family: Georgia, serif;
+      display: block;
+    }
+
+    .ref-text {
+      font-size: .97rem;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .ref-author {
+      display: flex;
+      align-items: center;
+      gap: .85rem;
+    }
+
+    .ref-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: .92rem;
+      flex-shrink: 0;
+    }
+
+    .ref-name {
+      font-weight: 600;
+      font-size: .95rem;
+    }
+
+    .ref-role {
+      font-size: .82rem;
+      color: var(--muted);
+    }
+
+    /* ── STARS ── */
+    .ref-stars {
+      color: #f59e0b;
+      font-size: .9rem;
+      margin-bottom: .75rem;
+      letter-spacing: .05em;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      text-align: center;
+    }
+
+    .cta-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4rem 2rem;
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,.05);
+    }
+
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(139,92,246,.08), transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-box h2 { margin-bottom: 1rem; }
+
+    .cta-box p {
+      color: var(--muted);
+      max-width: 42ch;
+      margin: 0 auto 2rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    footer a:hover { color: var(--text); }
+
+    /* ── CANVAS ── */
+    #particles {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero > *:not(canvas) {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      nav ul { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">Vimmai Creative</div>
+    <ul>
+      <li><a href="#palvelut">Palvelut</a></li>
+      <li><a href="#referenssit">Referenssit</a></li>
+      <li><a href="#luvut">Tulokset</a></li>
+      <li><a href="#yhteystiedot">Yhteystiedot</a></li>
+      <li><a href="#yhteystiedot" class="nav-cta">Aloita projekti</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <canvas id="particles"></canvas>
+    <div class="badge">Luovaa tekemistä · Helsinki</div>
+    <h1>Visuaalinen identiteetti, joka <span>jää mieleen</span></h1>
+    <p>Vimmai Creative Oy rakentaa brändit, verkkosivut ja markkinointimateriaalit, jotka erottuvat joukosta ja tuottavat tuloksia.</p>
+    <div class="btn-group">
+      <a href="#yhteystiedot" class="btn btn-primary">Aloita projekti</a>
+      <a href="#palvelut" class="btn btn-secondary">Tutustu palveluihin</a>
+    </div>
+  </section>
+
+  <!-- PALVELUT -->
+  <section id="palvelut">
+    <p class="section-label">Mitä teemme</p>
+    <h2>Palvelut</h2>
+    <p class="section-desc">Tarjoamme kattavan valikoiman luovia palveluja pienyrityksistä suuriin organisaatioihin.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon">✦</div>
+        <h3>Brändisuunnittelu</h3>
+        <p>Logo, väripaletti, typografia ja graafinen ohjeisto, jotka rakentavat yhtenäisen ja muistettavan brändin.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">◈</div>
+        <h3>Verkkosivut & UI/UX</h3>
+        <p>Modernit, mobiiliystävälliset verkkosivut, jotka konvertoivat kävijät asiakkaiksi.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">◉</div>
+        <h3>Digitaalinen markkinointi</h3>
+        <p>Somekanavien hallinta, sisällöntuotanto ja kohdennettu mainonta, joka tavoittaa oikean yleisön.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⬡</div>
+        <h3>Valokuvaus & Video</h3>
+        <p>Ammattitasoinen kuva- ja videotuotanto yritysesittelyihin, tuotteisiin ja sosiaaliseen mediaan.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">◇</div>
+        <h3>Painotuotteet</h3>
+        <p>Esitteet, käyntikortit, julisteet ja muut painomateriaalit laadukkaan ensivaikutelman takaamiseksi.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">▲</div>
+        <h3>Strateginen konsultointi</h3>
+        <p>Autamme kirkastamaan viestin, kohderyhmän ja erottautumistekijät ennen luovaa työtä.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIMMAI PALVELUT -->
+  <section class="vimmai-palvelut" id="vimmai-palvelut">
+    <p class="section-label">Kolme ydinaluettamme</p>
+    <h2>Vimmai palvelut</h2>
+    <p class="section-desc">Syvempi katsaus kolmeen palveluun, joissa olemme vahvimmillamme.</p>
+    <div class="palvelu-grid">
+      <div class="palvelu-card">
+        <div class="palvelu-num">01 · Verkkosivut</div>
+        <h3>Verkkosivu, joka myy</h3>
+        <p>Rakennamme modernit, nopeat ja konvertoivat verkkosivut – käsin suunniteltuna juuri sinun brändiisi.</p>
+        <ul class="palvelu-features">
+          <li>Räätälöity suunnittelu & kehitys</li>
+          <li>Mobiilioptimointu ja nopea lataus</li>
+          <li>SEO-perusteet sisäänrakennettuna</li>
+          <li>CMS-integraatio (WordPress, Webflow)</li>
+          <li>Analytiikka ja konversioseuranta</li>
+        </ul>
+      </div>
+      <div class="palvelu-card">
+        <div class="palvelu-num">02 · Brändi-identiteetti</div>
+        <h3>Brändi, joka jää mieleen</h3>
+        <p>Luomme visuaalisen identiteetin, joka kertoo tarinasi, herättää luottamuksen ja erottuu kilpailijoista.</p>
+        <ul class="palvelu-features">
+          <li>Logo ja visuaalinen identiteetti</li>
+          <li>Väri- ja typografiapaletti</li>
+          <li>Graafinen ohjeisto (brand guide)</li>
+          <li>Brändistrategia ja ydinviesti</li>
+          <li>Sovellukset eri medioihin</li>
+        </ul>
+      </div>
+      <div class="palvelu-card">
+        <div class="palvelu-num">03 · Digimarkkinointi</div>
+        <h3>Markkinointi, joka tuottaa</h3>
+        <p>Kasvatamme näkyvyyttäsi oikeissa kanavissa oikealle yleisölle – mitattavilla tuloksilla.</p>
+        <ul class="palvelu-features">
+          <li>Somekanavien hallinta</li>
+          <li>Sisällönsuunnittelu ja -tuotanto</li>
+          <li>Kohdennettu mainonta (Meta, Google)</li>
+          <li>Sähköpostimarkkinointi</li>
+          <li>Tulosten seuranta ja raportointi</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats" id="luvut">
+    <div class="stats-grid">
+      <div>
+        <div class="stat-number">120+</div>
+        <div class="stat-label">Toteutettua projektia</div>
+      </div>
+      <div>
+        <div class="stat-number">8</div>
+        <div class="stat-label">Vuotta kokemusta</div>
+      </div>
+      <div>
+        <div class="stat-number">98%</div>
+        <div class="stat-label">Tyytyväisiä asiakkaita</div>
+      </div>
+      <div>
+        <div class="stat-number">15</div>
+        <div class="stat-label">Alan palkintoa</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REFERENSSIT -->
+  <section class="referenssit" id="referenssit">
+    <p class="section-label">Asiakkaat kertovat</p>
+    <h2>Referenssit</h2>
+    <p class="section-desc">Kuule suoraan asiakkailtamme, miten yhteistyömme on vaikuttanut heidän liiketoimintaansa.</p>
+    <div class="ref-grid">
+      <div class="ref-card">
+        <div class="ref-stars">★★★★★</div>
+        <span class="ref-quote">"</span>
+        <p class="ref-text">Vimmai uudisti brändimme täysin – uusi ilme avasi ovia, jotka olivat aiemmin kiinni. Investointi maksoi itsensä takaisin nopeammin kuin osasimme odottaa.</p>
+        <div class="ref-author">
+          <div class="ref-avatar">ML</div>
+          <div>
+            <div class="ref-name">Mikael Lund</div>
+            <div class="ref-role">Toimitusjohtaja · Nordic Timber Oy</div>
+          </div>
+        </div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-stars">★★★★★</div>
+        <span class="ref-quote">"</span>
+        <p class="ref-text">Verkkosivuprojekti sujui mutkattomasti ja lopputulos ylitti kaikki odotuksemme. Konversiot nousivat yli 40 % uuden sivun myötä – tulokset puhuivat puolestaan.</p>
+        <div class="ref-author">
+          <div class="ref-avatar">SK</div>
+          <div>
+            <div class="ref-name">Sara Korhonen</div>
+            <div class="ref-role">Markkinointipäällikkö · Kultajuveli Boutique</div>
+          </div>
+        </div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-stars">★★★★★</div>
+        <span class="ref-quote">"</span>
+        <p class="ref-text">Digimarkkinoinnin myötä someseuraajamme kolminkertaistui kuudessa kuukaudessa ja uusien asiakkaiden määrä kasvoi merkittävästi. Vimmai tietää mitä tekee.</p>
+        <div class="ref-author">
+          <div class="ref-avatar">JM</div>
+          <div>
+            <div class="ref-name">Joonas Mäkinen</div>
+            <div class="ref-role">Yrittäjä · Mäkinen Tilitoimisto</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="yhteystiedot">
+    <div class="cta-box">
+      <h2>Aloitetaan yhdessä</h2>
+      <p>Kerro projektistasi ja otetaan selvää, miten voimme auttaa brändiäsi kasvamaan.</p>
+      <a href="mailto:hei@vimmai.fi" class="btn btn-primary">hei@vimmai.fi</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2026 Vimmai Creative Oy · Helsinki, Finland</span>
+    <div style="display:flex;gap:1.5rem;">
+      <a href="#">Instagram</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Behance</a>
+    </div>
+  </footer>
+
+  <script>
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+
+    const COUNT       = 80;
+    const MAX_DIST    = 140;
+    const MOUSE_DIST  = 180;
+    const SPEED       = 0.35;
+    const DOT_RADIUS  = 1.8;
+
+    const COLOR_A = [139,  92, 246]; // --accent  (violet)
+    const COLOR_B = [ 59, 130, 246]; // --accent2 (blue)
+
+    let W, H, mouse = { x: -9999, y: -9999 };
+
+    function resize() {
+      const hero = canvas.parentElement;
+      W = canvas.width  = hero.offsetWidth;
+      H = canvas.height = hero.offsetHeight;
+    }
+
+    /* lerp between the two brand colours based on normalised t */
+    function accentColor(t, alpha) {
+      const r = Math.round(COLOR_A[0] + (COLOR_B[0] - COLOR_A[0]) * t);
+      const g = Math.round(COLOR_A[1] + (COLOR_B[1] - COLOR_A[1]) * t);
+      const b = Math.round(COLOR_A[2] + (COLOR_B[2] - COLOR_A[2]) * t);
+      return `rgba(${r},${g},${b},${alpha})`;
+    }
+
+    class Dot {
+      constructor() { this.reset(true); }
+
+      reset(initial) {
+        this.x  = Math.random() * W;
+        this.y  = initial ? Math.random() * H : -10;
+        this.vx = (Math.random() - .5) * SPEED;
+        this.vy = (Math.random() - .5) * SPEED;
+        this.t  = Math.random();
+        this.pulse = Math.random() * Math.PI * 2;
+      }
+
+      update() {
+        this.pulse += 0.02;
+
+        const dx = this.x - mouse.x;
+        const dy = this.y - mouse.y;
+        const d  = Math.sqrt(dx * dx + dy * dy);
+        if (d < MOUSE_DIST && d > 0) {
+          const force = (MOUSE_DIST - d) / MOUSE_DIST * 0.6;
+          this.vx += (dx / d) * force;
+          this.vy += (dy / d) * force;
+        }
+
+        this.vx *= 0.98;
+        this.vy *= 0.98;
+
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.x < -20) this.x = W + 20;
+        if (this.x > W + 20) this.x = -20;
+        if (this.y < -20) this.y = H + 20;
+        if (this.y > H + 20) this.y = -20;
+      }
+
+      draw() {
+        const scale = 1 + .25 * Math.sin(this.pulse);
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, DOT_RADIUS * scale, 0, Math.PI * 2);
+        ctx.fillStyle = accentColor(this.t, .65);
+        ctx.fill();
+      }
+    }
+
+    let dots = [];
+
+    function init() {
+      resize();
+      dots = Array.from({ length: COUNT }, () => new Dot());
+    }
+
+    function drawLines() {
+      for (let i = 0; i < dots.length; i++) {
+        for (let j = i + 1; j < dots.length; j++) {
+          const dx = dots[i].x - dots[j].x;
+          const dy = dots[i].y - dots[j].y;
+          const d  = Math.sqrt(dx * dx + dy * dy);
+          if (d < MAX_DIST) {
+            const alpha = (1 - d / MAX_DIST) * .28;
+            const t     = (dots[i].t + dots[j].t) / 2;
+            ctx.beginPath();
+            ctx.moveTo(dots[i].x, dots[i].y);
+            ctx.lineTo(dots[j].x, dots[j].y);
+            ctx.strokeStyle = accentColor(t, alpha);
+            ctx.lineWidth   = .8;
+            ctx.stroke();
+          }
+        }
+
+        const mx = dots[i].x - mouse.x;
+        const my = dots[i].y - mouse.y;
+        const md = Math.sqrt(mx * mx + my * my);
+        if (md < MOUSE_DIST) {
+          const alpha = (1 - md / MOUSE_DIST) * .5;
+          ctx.beginPath();
+          ctx.moveTo(dots[i].x, dots[i].y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.strokeStyle = accentColor(dots[i].t, alpha);
+          ctx.lineWidth   = 1;
+          ctx.stroke();
+        }
+      }
+    }
+
+    function loop() {
+      ctx.clearRect(0, 0, W, H);
+      drawLines();
+      dots.forEach(d => { d.update(); d.draw(); });
+      requestAnimationFrame(loop);
+    }
+
+    const hero = canvas.parentElement;
+    hero.addEventListener('mousemove', e => {
+      const r = hero.getBoundingClientRect();
+      mouse.x = e.clientX - r.left;
+      mouse.y = e.clientY - r.top;
+    });
+    hero.addEventListener('mouseleave', () => {
+      mouse.x = -9999; mouse.y = -9999;
+    });
+
+    window.addEventListener('resize', () => { resize(); });
+
+    init();
+    loop();
+  </script>
+
+</body>
+</html>
