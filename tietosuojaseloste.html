@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tietosuojaseloste – Vimmai Creative Oy</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg:      #f5f5f9;
+      --surface: #ffffff;
+      --border:  #e0e0ea;
+      --accent:  #8b5cf6;
+      --accent2: #3b82f6;
+      --text:    #14142a;
+      --muted:   #6c6c88;
+      --radius:  12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 5vw;
+      background: rgba(245,245,249,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+    }
+
+    nav a.back {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .95rem;
+      transition: color .2s;
+    }
+
+    nav a.back:hover { color: var(--text); }
+
+    /* ── SISÄLTÖ ── */
+    .page-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 8rem 5vw 6rem;
+    }
+
+    .page-header {
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-label {
+      font-size: .8rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .8rem;
+    }
+
+    .page-header h1 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      line-height: 1.15;
+      margin-bottom: .75rem;
+    }
+
+    .page-header p {
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    /* ── SISÄLTÖOSIOT ── */
+    .ts-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .ts-section h2 {
+      text-align: left;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -.01em;
+      margin-bottom: .75rem;
+      color: var(--text);
+    }
+
+    .ts-section p,
+    .ts-section li {
+      font-size: .97rem;
+      color: var(--muted);
+      margin-bottom: .5rem;
+    }
+
+    .ts-section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .ts-section ul li {
+      display: flex;
+      align-items: flex-start;
+      gap: .6rem;
+    }
+
+    .ts-section ul li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      flex-shrink: 0;
+      margin-top: .58em;
+    }
+
+    .ts-section a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .ts-section a:hover { text-decoration: underline; }
+
+    .info-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-top: .75rem;
+    }
+
+    .info-box p {
+      margin-bottom: .25rem;
+    }
+
+    .info-box p:last-child { margin-bottom: 0; }
+
+    .info-box strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    footer a:hover { color: var(--text); }
+
+    @media (max-width: 600px) {
+      nav ul { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="logo">Vimmai Creative</a>
+    <a href="/" class="back">← Takaisin etusivulle</a>
+  </nav>
+
+  <!-- SISÄLTÖ -->
+  <main class="page-wrap">
+
+    <div class="page-header">
+      <p class="page-label">Juridinen dokumentti</p>
+      <h1>Tietosuojaseloste</h1>
+      <p>Päivitetty 3. maaliskuuta 2026 · Voimassa toistaiseksi</p>
+    </div>
+
+    <div class="ts-section">
+      <h2>1. Rekisterinpitäjä</h2>
+      <div class="info-box">
+        <p><strong>Vimmai Creative Oy</strong></p>
+        <p>Y-tunnus: 1234567-8</p>
+        <p>Helsinki, Finland</p>
+        <p>Sähköposti: <a href="mailto:hei@vimmai.fi">hei@vimmai.fi</a></p>
+      </div>
+    </div>
+
+    <div class="ts-section">
+      <h2>2. Kerättävät henkilötiedot ja käyttötarkoitus</h2>
+      <p>Keräämme henkilötietoja ainoastaan verkkosivustollamme olevan yhteydenottolomakkeen kautta. Lomakkeen kautta kerättävät tiedot ovat:</p>
+      <ul>
+        <li>Nimi</li>
+        <li>Sähköpostiosoite</li>
+        <li>Vapaamuotoinen viesti</li>
+      </ul>
+      <p style="margin-top:.75rem;">Tietoja käytetään ainoastaan yhteydenottopyyntöihin vastaamiseen ja mahdollisen asiakassuhteen hoitamiseen. Tietoja ei käytetä automatisoituun päätöksentekoon tai profilointiin.</p>
+    </div>
+
+    <div class="ts-section">
+      <h2>3. Käsittelyperuste</h2>
+      <p>Henkilötietojen käsittelyn oikeusperuste on rekisteröidyn suostumus (GDPR 6 artikla 1 kohta a). Suostumus annetaan lähettämällä yhteydenottolomake. Suostumuksen voi peruuttaa milloin tahansa ottamalla yhteyttä rekisterinpitäjään.</p>
+    </div>
+
+    <div class="ts-section">
+      <h2>4. Tietojen säilytys ja suojaus</h2>
+      <p>Yhteydenottolomakkeen kautta lähetetyt tiedot tallennetaan Supabase-tietokantapalveluun, jonka palvelimet sijaitsevat EU:n alueella. Supabase noudattaa GDPR-vaatimuksia.</p>
+      <p>Tietoja säilytetään niin kauan kuin ne ovat tarpeellisia yhteydenoton käsittelyyn ja mahdollisen asiakassuhteen ylläpitoon, kuitenkin enintään 24 kuukautta. Tietoihin pääsy on rajattu ainoastaan Vimmai Creative Oy:n henkilöstölle.</p>
+    </div>
+
+    <div class="ts-section">
+      <h2>5. Tietojen luovuttaminen kolmansille osapuolille</h2>
+      <p>Emme myy, vuokraa tai luovuta henkilötietoja kolmansille osapuolille markkinointitarkoituksiin. Tietoja voidaan luovuttaa ainoastaan:</p>
+      <ul>
+        <li>Viranomaisten lakisääteisten pyyntöjen perusteella</li>
+        <li>Teknisten palveluntarjoajien kautta (Supabase), jotka toimivat tietojenkäsittelijöinä ja ovat sitoutuneet GDPR-vaatimuksiin</li>
+      </ul>
+    </div>
+
+    <div class="ts-section">
+      <h2>6. Rekisteröidyn oikeudet</h2>
+      <p>Sinulla on GDPR:n mukainen oikeus:</p>
+      <ul>
+        <li>Saada pääsy sinua koskeviin henkilötietoihin (tarkastusoikeus)</li>
+        <li>Vaatia virheellisten tietojen oikaisemista</li>
+        <li>Vaatia tietojen poistamista ("oikeus tulla unohdetuksi")</li>
+        <li>Rajoittaa henkilötietojesi käsittelyä</li>
+        <li>Siirtää tiedot toiselle rekisterinpitäjälle (tiedon siirrettävyys)</li>
+        <li>Peruuttaa suostumus milloin tahansa</li>
+        <li>Tehdä valitus valvontaviranomaiselle (Tietosuojavaltuutetun toimisto, <a href="https://tietosuoja.fi" target="_blank" rel="noopener">tietosuoja.fi</a>)</li>
+      </ul>
+      <p style="margin-top:.75rem;">Oikeuksien käyttämiseksi ota yhteyttä: <a href="mailto:hei@vimmai.fi">hei@vimmai.fi</a></p>
+    </div>
+
+    <div class="ts-section">
+      <h2>7. Evästeet</h2>
+      <p>Verkkosivustomme ei tällä hetkellä käytä evästeitä eikä muita seurantateknologioita. Jos tähän tulee muutos, päivitämme tietosuojaselostetta ja pyydämme tarvittaessa suostumuksen.</p>
+    </div>
+
+    <div class="ts-section">
+      <h2>8. Tietosuojaselosteen muutokset</h2>
+      <p>Pidätämme oikeuden päivittää tätä tietosuojaselostetta. Olennaisista muutoksista ilmoitetaan verkkosivustollamme. Jatkamalla sivuston käyttöä muutosten jälkeen hyväksyt päivitetyn selosteen.</p>
+    </div>
+
+    <div class="ts-section">
+      <h2>9. Yhteystiedot</h2>
+      <p>Tietosuojaan liittyvissä kysymyksissä ota yhteyttä:</p>
+      <div class="info-box">
+        <p><strong>Vimmai Creative Oy</strong></p>
+        <p>Sähköposti: <a href="mailto:hei@vimmai.fi">hei@vimmai.fi</a></p>
+        <p>Vastaamme tietosuojakysymyksiin 30 päivän kuluessa.</p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div style="display:flex;flex-direction:column;gap:.3rem;">
+      <span>© 2025 Vimmai Creative Oy – Kaikki oikeudet pidätetään</span>
+      <span style="font-size:.8rem;">Y-tunnus: 1234567-8 · Helsinki, Finland</span>
+    </div>
+    <div style="display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;">
+      <a href="/tietosuojaseloste">Tietosuojaseloste</a>
+      <a href="#">Instagram</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Behance</a>
+    </div>
+  </footer>
+
+</body>
+</html>
