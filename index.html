@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vimmai Creative Oy</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -474,7 +475,81 @@
     .cta-box p {
       color: var(--muted);
       max-width: 42ch;
-      margin: 0 auto 2rem;
+      margin: 0 auto 0;
+    }
+
+    /* ── CONTACT FORM ── */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      text-align: left;
+      margin-top: 1.8rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+    }
+
+    .form-group label {
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      padding: .75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg);
+      color: var(--text);
+      font-size: .95rem;
+      font-family: inherit;
+      transition: border-color .2s, box-shadow .2s;
+      outline: none;
+      width: 100%;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(139,92,246,.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-message {
+      padding: .85rem 1rem;
+      border-radius: var(--radius);
+      font-size: .9rem;
+      font-weight: 500;
+      display: none;
+    }
+
+    .form-message.success {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      color: #166534;
+      display: block;
+    }
+
+    .form-message.error {
+      background: #fff1f2;
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+      display: block;
+    }
+
+    .btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none !important;
     }
 
     /* ── FOOTER ── */
@@ -695,12 +770,27 @@
     </div>
   </section>
 
-  <!-- CTA -->
+  <!-- CTA / YHTEYDENOTTO -->
   <section class="cta-section" id="yhteystiedot">
     <div class="cta-box">
       <h2>Aloitetaan yhdessä</h2>
       <p>Kerro projektistasi ja otetaan selvää, miten voimme auttaa brändiäsi kasvamaan.</p>
-      <a href="mailto:hei@vimmai.fi" class="btn btn-primary">hei@vimmai.fi</a>
+      <form class="contact-form" id="contactForm" novalidate>
+        <div class="form-group">
+          <label for="nimi">Nimi</label>
+          <input type="text" id="nimi" name="nimi" placeholder="Etunimi Sukunimi" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Sähköposti</label>
+          <input type="email" id="email" name="email" placeholder="sinun@yritys.fi" required>
+        </div>
+        <div class="form-group">
+          <label for="viesti">Viesti</label>
+          <textarea id="viesti" name="viesti" placeholder="Kerro projektistasi – mikä on tavoitteesi ja millä aikataululla?" required></textarea>
+        </div>
+        <div id="formMessage" class="form-message"></div>
+        <button type="submit" class="btn btn-primary" id="submitBtn">Lähetä viesti</button>
+      </form>
     </div>
   </section>
 
@@ -849,6 +939,59 @@
 
     init();
     loop();
+  </script>
+
+  <!-- Supabase yhteydenottolomake -->
+  <script>
+    const { createClient } = supabase;
+    const sb = createClient(
+      'https://ktodbrsinubvjihowriu.supabase.co',
+      'sb_publishable_rS2PUOzAXFt3l97BXetdJw__x3yWSuy'
+    );
+
+    const form       = document.getElementById('contactForm');
+    const submitBtn  = document.getElementById('submitBtn');
+    const msgBox     = document.getElementById('formMessage');
+
+    function showMsg(teksti, tyyppi) {
+      msgBox.textContent = teksti;
+      msgBox.className   = `form-message ${tyyppi}`;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const nimi   = document.getElementById('nimi').value.trim();
+      const email  = document.getElementById('email').value.trim();
+      const viesti = document.getElementById('viesti').value.trim();
+
+      if (!nimi || !email || !viesti) {
+        showMsg('Täytä kaikki kentät ennen lähettämistä.', 'error');
+        return;
+      }
+
+      submitBtn.disabled    = true;
+      submitBtn.textContent = 'Lähetetään…';
+      msgBox.className      = 'form-message';
+
+      const { error } = await sb
+        .from('yhteydenotot')
+        .insert([{ nimi, email, viesti }]);
+
+      if (error) {
+        showMsg(
+          'Lähetys epäonnistui. Yritä uudelleen tai kirjoita suoraan osoitteeseen hei@vimmai.fi',
+          'error'
+        );
+        console.error('Supabase virhe:', error.message);
+      } else {
+        showMsg('Kiitos viestistäsi! Otamme sinuun yhteyttä pian. 🎉', 'success');
+        form.reset();
+      }
+
+      submitBtn.disabled    = false;
+      submitBtn.textContent = 'Lähetä viesti';
+    });
   </script>
 
 </body>
