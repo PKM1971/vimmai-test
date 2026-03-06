@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PeeTee – Personal Trainer Helsinki</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg:        #06060d;
+      --surface:   #0d0d1a;
+      --border:    #1a1a2e;
+      --blue:      #1d9ef1;
+      --blue-glow: rgba(29, 158, 241, .18);
+      --text:      #ffffff;
+      --muted:     #8888aa;
+      --radius:    10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg);
+      /* Minimalist dot-grid pattern */
+      background-image: radial-gradient(circle, rgba(29,158,241,.08) 1px, transparent 1px);
+      background-size: 28px 28px;
+      color: var(--text);
+      font-family: 'Barlow', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─────────── NAV ─────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 5vw;
+      background: rgba(6, 6, 13, .88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 1.5rem;
+      letter-spacing: -.01em;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .nav-logo span { color: var(--blue); }
+
+    nav ul {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 500;
+      letter-spacing: .03em;
+      transition: color .2s;
+    }
+
+    nav a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--blue);
+      color: #fff !important;
+      padding: .5rem 1.25rem;
+      border-radius: 99px;
+      font-weight: 600;
+      font-size: .9rem;
+      letter-spacing: .02em;
+      transition: opacity .2s, transform .15s;
+    }
+
+    .nav-cta:hover { opacity: .88; transform: translateY(-1px); }
+
+    /* ─────────── HERO ─────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 7rem 5vw 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Blue radial glow behind brand text */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70vw;
+      height: 60vh;
+      background: radial-gradient(ellipse, rgba(29,158,241,.09) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Horizontal grid lines — subtle depth */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(29,158,241,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(29,158,241,.04) 1px, transparent 1px);
+      background-size: 80px 80px;
+      pointer-events: none;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .3rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      background: rgba(13,13,26,.6);
+    }
+
+    .badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 8px var(--blue);
+    }
+
+    /* Giant brand name */
+    .brand-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(5.5rem, 23vw, 21rem);
+      line-height: .88;
+      letter-spacing: -.03em;
+      text-transform: uppercase;
+      margin-bottom: .15em;
+      color: var(--text);
+    }
+
+    .brand-name .blue {
+      color: var(--blue);
+      text-shadow: 0 0 60px rgba(29,158,241,.45);
+    }
+
+    /* Italic tagline under brand name */
+    .brand-sub {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-style: italic;
+      font-size: clamp(1.1rem, 3.5vw, 2.6rem);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.8rem;
+    }
+
+    /* Description */
+    .hero-desc {
+      font-size: clamp(.95rem, 1.5vw, 1.1rem);
+      color: var(--muted);
+      max-width: 46ch;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+
+    /* CTA buttons */
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 4.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .85rem 2.1rem;
+      border-radius: 99px;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: .02em;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform .15s, opacity .15s, box-shadow .2s;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+      box-shadow: 0 4px 24px rgba(29,158,241,.35);
+    }
+
+    .btn-primary:hover {
+      opacity: .92;
+      box-shadow: 0 8px 32px rgba(29,158,241,.5);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1.5px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: rgba(255,255,255,.3);
+      background: rgba(255,255,255,.04);
+    }
+
+    .btn-arrow {
+      font-size: 1.1rem;
+      transition: transform .2s;
+    }
+
+    .btn:hover .btn-arrow { transform: translateX(3px); }
+
+    /* ─────────── STATS ROW ─────────── */
+    .stats-row {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat-bubble {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      background: rgba(13,13,26,.7);
+      backdrop-filter: blur(8px);
+      transition: border-color .25s, transform .2s;
+      position: relative;
+    }
+
+    .stat-bubble::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(29,158,241,.2), transparent 60%);
+      opacity: 0;
+      transition: opacity .25s;
+    }
+
+    .stat-bubble:hover {
+      border-color: rgba(29,158,241,.5);
+      transform: translateY(-4px);
+    }
+
+    .stat-bubble:hover::before { opacity: 1; }
+
+    .stat-number {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 2.4rem;
+      line-height: 1;
+      color: var(--blue);
+      letter-spacing: -.02em;
+    }
+
+    .stat-unit {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--blue);
+      margin-left: .1em;
+    }
+
+    .stat-label {
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: .3rem;
+      text-align: center;
+      max-width: 90px;
+      line-height: 1.3;
+    }
+
+    /* ─────────── BOTTOM MARQUEE BAND ─────────── */
+    .marquee-band {
+      width: 100%;
+      background: var(--blue);
+      padding: .85rem 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 3rem;
+      white-space: nowrap;
+      animation: marquee 18s linear infinite;
+    }
+
+    .marquee-item {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .marquee-sep {
+      color: rgba(255,255,255,.5);
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ─────────── RESPONSIVE ─────────── */
+    @media (max-width: 700px) {
+      nav ul { display: none; }
+
+      .stat-bubble {
+        width: 110px;
+        height: 110px;
+      }
+
+      .stat-number { font-size: 1.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Pee<span>Tee</span></a>
+    <ul>
+      <li><a href="#ohjelmat">Ohjelmat</a></li>
+      <li><a href="#tulokset">Tulokset</a></li>
+      <li><a href="#yhteystiedot">Yhteystiedot</a></li>
+    </ul>
+    <a href="#varaa" class="nav-cta">Varaa kokeilu</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-inner">
+
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Helsinki &nbsp;·&nbsp; Personal Training
+      </div>
+
+      <h1 class="brand-name">
+        Pee<span class="blue">Tee</span>
+      </h1>
+
+      <p class="brand-sub">Stronger &nbsp;·&nbsp; Every &nbsp;·&nbsp; Rep</p>
+
+      <p class="hero-desc">
+        Henkilökohtainen valmennus, joka sopeutuu sinuun — ei päinvastoin.
+        Suunnitelma, motivaatio ja tulokset, jotka kestävät.
+      </p>
+
+      <div class="btn-group">
+        <a href="#varaa" class="btn btn-primary">
+          Aloita matka <span class="btn-arrow">→</span>
+        </a>
+        <a href="#ohjelmat" class="btn btn-secondary">
+          Katso ohjelmat
+        </a>
+      </div>
+
+      <!-- Stats bubbles -->
+      <div class="stats-row">
+        <div class="stat-bubble">
+          <div style="display:flex;align-items:baseline;">
+            <span class="stat-number">500</span><span class="stat-unit">+</span>
+          </div>
+          <span class="stat-label">tyytyväistä asiakasta</span>
+        </div>
+        <div class="stat-bubble">
+          <div style="display:flex;align-items:baseline;">
+            <span class="stat-number">10</span><span class="stat-unit">v</span>
+          </div>
+          <span class="stat-label">kokemus alalta</span>
+        </div>
+        <div class="stat-bubble">
+          <div style="display:flex;align-items:baseline;">
+            <span class="stat-number">98</span><span class="stat-unit">%</span>
+          </div>
+          <span class="stat-label">saavuttaa tavoitteensa</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MARQUEE BAND -->
+  <div class="marquee-band">
+    <div class="marquee-track">
+      <!-- Duplicated for seamless loop -->
+      <span class="marquee-item">Voimaharjoittelu</span>
+      <span class="marquee-item marquee-sep">✦</span>
+      <span class="marquee-item">Kehonkoostumus</span>
+      <span class="marquee-item marquee-sep">✦</span>
+      <span class="marquee-item">Ravintoneuvonta</span>
+      <span class="marquee-item marquee-sep">✦</span>
+      <span class="marquee-item">Liikkuvuus</span>
+      <span class="marquee-item marquee-sep">✦</span>
+      <span class="marquee-item">Online-valmennus</span>
+      <span class="marquee-item marquee-sep">✦</span>
+      <span class="marquee-item">Ryhmätreenit</span>
+      <span class="marquee-item marquee-sep">✦</span>
+      <!-- Duplicate -->
+      <span class="marquee-item">Voimaharjoittelu</span>
+      <span class="marquee-item marquee-sep">✦</span>
+      <span class="marquee-item">Kehonkoostumus</span>
+      <span class="marquee-item marquee-sep">✦</span>
+      <span class="marquee-item">Ravintoneuvonta</span>
+      <span class="marquee-item marquee-sep">✦</span>
+      <span class="marquee-item">Liikkuvuus</span>
+      <span class="marquee-item marquee-sep">✦</span>
+      <span class="marquee-item">Online-valmennus</span>
+      <span class="marquee-item marquee-sep">✦</span>
+      <span class="marquee-item">Ryhmätreenit</span>
+      <span class="marquee-item marquee-sep">✦</span>
+    </div>
+  </div>
+
+</body>
+</html>
